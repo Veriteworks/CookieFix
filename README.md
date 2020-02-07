@@ -1,0 +1,1 @@
+# Extension for Cookie SameSite attribute
