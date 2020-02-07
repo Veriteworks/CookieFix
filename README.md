@@ -1,5 +1,4 @@
 # Extension for Cookie SameSite attribute
-================
 This extension is adjusting Cookie SameSite attribute issue since Chrome 80.
 
 **NOTICE: this extension is experimental.**
