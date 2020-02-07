@@ -161,7 +161,7 @@ class CookieManager implements CookieManagerInterface
         $sameSite = $this->validator->shouldSendSameSiteNone($userAgent);
 
         $version = PHP_VERSION_ID;
-        if ($version > 70300) {
+        if ($version >= 70300) {
             $options = [
                 self::KEY_EXPIRES => $expire,
                 self::KEY_PATH => $this->extractValue(CookieMetadata::KEY_PATH, $metadataArray, ''),
