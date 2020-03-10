@@ -159,14 +159,13 @@ class CookieManager implements CookieManagerInterface
         $this->checkAbilityToSendCookie($name, $value);
         $userAgent = $this->httpHeader->getHttpUserAgent();
         $sameSite = $this->validator->shouldSendSameSiteNone($userAgent);
-        $hostName = $this->httpHeader->getHttpHost();
 
         $version = PHP_VERSION_ID;
         if ($version >= 70300) {
             $options = [
                 self::KEY_EXPIRES => $expire,
                 self::KEY_PATH => $this->extractValue(CookieMetadata::KEY_PATH, $metadataArray, ''),
-                self::KEY_DOMAIN => $this->extractValue(CookieMetadata::KEY_DOMAIN, $metadataArray, $hostName),
+                self::KEY_DOMAIN => $this->extractValue(CookieMetadata::KEY_DOMAIN, $metadataArray, ''),
                 self::KEY_SECURE => $this->extractValue(CookieMetadata::KEY_SECURE, $metadataArray, true),
                 self::KEY_HTTP_ONLY => $this->extractValue(CookieMetadata::KEY_HTTP_ONLY, $metadataArray, false)
             ];
@@ -181,17 +180,17 @@ class CookieManager implements CookieManagerInterface
                 $options
             );
         } else {
-            $domain = $this->extractValue(CookieMetadata::KEY_DOMAIN, $metadataArray, $hostName);
+            $path = $this->extractValue(CookieMetadata::KEY_PATH, $metadataArray, '');
             if ($sameSite) {
-                $domain .= '; SameSite=None';
+                $path .= '; SameSite=None';
             }
 
             $phpSetcookieSuccess = setcookie(
                 $name,
                 $value,
                 $expire,
-                $this->extractValue(CookieMetadata::KEY_PATH, $metadataArray, ''),
-                $domain,
+                $path,
+                $this->extractValue(CookieMetadata::KEY_DOMAIN, $metadataArray, ''),
                 $this->extractValue(CookieMetadata::KEY_SECURE, $metadataArray, true),
                 $this->extractValue(CookieMetadata::KEY_HTTP_ONLY, $metadataArray, false)
             );
