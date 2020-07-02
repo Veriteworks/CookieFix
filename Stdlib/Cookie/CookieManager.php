@@ -181,7 +181,7 @@ class CookieManager implements CookieManagerInterface
             );
         } else {
             $path = $this->extractValue(CookieMetadata::KEY_PATH, $metadataArray, '');
-            if ($sameSite) {
+            if ($sameSite && !preg_match('/SameSite/', $path)) {
                 $path .= '; SameSite=None';
             }
 
