@@ -29,7 +29,7 @@ class Config extends BaseConfig
             $this->setOption('session.cookie_samesite', 'None');
         } else {
             if (!preg_match('/SameSite/', $cookiePath)) {
-                $cookiePath .= '; SameSite=None;';
+                $cookiePath .= '; SameSite=None';
                 $this->setOption('session.cookie_path', $cookiePath);
             }
         }
