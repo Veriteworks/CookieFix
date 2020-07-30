@@ -17,6 +17,7 @@ use Magento\Framework\Stdlib\CookieManagerInterface;
 use Magento\Framework\HTTP\Header as HttpHeader;
 use Psr\Log\LoggerInterface;
 use Veriteworks\CookieFix\Validator\SameSite;
+use Veriteworks\CookieFix\Rewrite\Stdlib\Cookie\PublicCookieMetadata as ExtendPulicCookieMetadata;
 
 /**
  * CookieManager helps manage the setting, retrieving and deleting of cookies.
@@ -170,7 +171,9 @@ class CookieManager implements CookieManagerInterface
                 self::KEY_HTTP_ONLY => $this->extractValue(CookieMetadata::KEY_HTTP_ONLY, $metadataArray, false)
             ];
 
-            if ($sameSite) {
+	    if (array_key_exists(ExtendPulicCookieMetadata::KEY_SAMESITE, $metadataArray)) {
+                $options = array_merge($options, [self::KEY_SAME_SITE => $metadataArray[ExtendPulicCookieMetadata::KEY_SAMESITE]]);
+            } elseif ($sameSite) {
                 $options = array_merge($options, [self::KEY_SAME_SITE => 'None']);
             }
 
@@ -180,8 +183,10 @@ class CookieManager implements CookieManagerInterface
                 $options
             );
         } else {
-            $path = $this->extractValue(CookieMetadata::KEY_PATH, $metadataArray, '');
-            if ($sameSite && !preg_match('/SameSite/', $path)) {
+	    $path = $this->extractValue(CookieMetadata::KEY_PATH, $metadataArray, '');
+            if (array_key_exists(ExtendPulicCookieMetadata::KEY_SAMESITE, $metadataArray)) {
+                $path .= '; SameSite=' . $metadataArray[ExtendPulicCookieMetadata::KEY_SAMESITE];
+            } elseif ($sameSite) {
                 $path .= '; SameSite=None';
             }
 
