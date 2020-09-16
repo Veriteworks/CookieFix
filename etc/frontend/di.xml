@@ -6,4 +6,9 @@
                 type="Veriteworks\CookieFix\Plugin\View\Element\Js\AdjustPath"
                 sortOrder="10"/>
     </type>
+    <type name="Magento\Framework\Session\Config">
+        <plugin name="add_samesite"
+                type="Veriteworks\CookieFix\Plugin\Session\AddSameSite"
+                sortOrder="10"/>
+    </type>
 </config>

@@ -171,7 +171,7 @@ class CookieManager implements CookieManagerInterface
                 self::KEY_HTTP_ONLY => $this->extractValue(CookieMetadata::KEY_HTTP_ONLY, $metadataArray, false)
             ];
 
-	    if (array_key_exists(ExtendPulicCookieMetadata::KEY_SAMESITE, $metadataArray)) {
+            if (array_key_exists(ExtendPulicCookieMetadata::KEY_SAMESITE, $metadataArray)) {
                 $options = array_merge($options, [self::KEY_SAME_SITE => $metadataArray[ExtendPulicCookieMetadata::KEY_SAMESITE]]);
             } elseif ($sameSite) {
                 $options = array_merge($options, [self::KEY_SAME_SITE => 'None']);
@@ -183,10 +183,10 @@ class CookieManager implements CookieManagerInterface
                 $options
             );
         } else {
-	    $path = $this->extractValue(CookieMetadata::KEY_PATH, $metadataArray, '');
+            $path = $this->extractValue(CookieMetadata::KEY_PATH, $metadataArray, '');
             if (array_key_exists(ExtendPulicCookieMetadata::KEY_SAMESITE, $metadataArray)) {
                 $path .= '; SameSite=' . $metadataArray[ExtendPulicCookieMetadata::KEY_SAMESITE];
-            } elseif ($sameSite) {
+            } elseif ($sameSite && !preg_match('/SameSite/', $path)) {
                 $path .= '; SameSite=None';
             }
 
