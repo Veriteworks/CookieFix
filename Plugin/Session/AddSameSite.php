@@ -49,6 +49,8 @@ class AddSameSite
             return $result;
         }
 
+        $subject->setOption('session.cookie_secure', 1);
+
         if ($version >= 70300) {
             $subject->setOption('session.cookie_samesite', 'None');
         } else {
