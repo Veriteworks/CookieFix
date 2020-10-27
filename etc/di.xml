@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
-    <preference for="Magento\Framework\Stdlib\CookieManagerInterface" type="Veriteworks\CookieFix\Stdlib\Cookie\CookieManager"/>
-    <preference for="Magento\Framework\Stdlib\Cookie\PublicCookieMetadata" type="Veriteworks\CookieFix\Rewrite\Stdlib\Cookie\PublicCookieMetadata"/>
-</config>

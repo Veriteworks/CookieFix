@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <web>
+            <cookie>
+                <samesite>Lax</samesite>
+                <affected_keys>PHPSESSID,form_key,private_content_version,X-Magento-Vary</affected_keys>
+            </cookie>
+        </web>
+    </default>
+</config>

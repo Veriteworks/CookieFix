@@ -11,6 +11,11 @@ This extension set SameSite=None and make customers place order via 3DS payment 
  + composer require veriteworks/cookiefix
  + bin/magento module:enable Veriteworks_CookieFix
  + bin/magento setup:upgrade
+ 
+# Configuration
+
+After 3.0.0-beta1, you can change SameSite cookie configuration from admin panel. Go to "Stores > configuration > web" and open cookie section. You can see "SameSite" field.
+By default, this extension sets SameSite configuration value to limited cookies. If you hope to update the list, please update web/cookie/affected_keys configuration value. 
 
 # Support
 
