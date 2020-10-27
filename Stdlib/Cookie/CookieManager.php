@@ -174,7 +174,10 @@ class CookieManager implements CookieManagerInterface
             if (array_key_exists(ExtendPulicCookieMetadata::KEY_SAMESITE, $metadataArray)) {
                 $options = array_merge($options, [self::KEY_SAME_SITE => $metadataArray[ExtendPulicCookieMetadata::KEY_SAMESITE]]);
             } elseif ($sameSite) {
-                $options = array_merge($options, [self::KEY_SAME_SITE => 'None']);
+                $options = array_merge($options, [
+                    self::KEY_SAME_SITE => 'None',
+                    self::KEY_SECURE => true
+                ]);
             }
 
             $phpSetcookieSuccess = setcookie(
