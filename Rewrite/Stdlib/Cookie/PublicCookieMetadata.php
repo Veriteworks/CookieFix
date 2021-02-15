@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 namespace Veriteworks\CookieFix\Rewrite\Stdlib\Cookie;
 
+use Magento\Framework\Stdlib\Cookie\CookieMetadata;
 use Magento\Framework\Stdlib\Cookie\PublicCookieMetadata as Base;
 
 /**
@@ -15,9 +16,9 @@ class PublicCookieMetadata extends Base
      * Set SameSite flag
      *
      * @param string $sameSite
-     * @return \Magento\Framework\Stdlib\Cookie\PublicCookieMetadata
+     * @return CookieMetadata
      */
-    public function setSameSite($sameSite)
+    public function setSameSite(string $sameSite): CookieMetadata
     {
         return $this->set(self::KEY_SAMESITE, $sameSite);
     }
