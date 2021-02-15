@@ -6,7 +6,7 @@
         "AFL-3.0"
     ],
     "description":"Magento2 extension for Cookie SameSite attribute.",
-    "version":"2.4.1",
+    "version":"2.4.2",
     "authors":[
         {
             "name":"Hirokazu Nishi",
