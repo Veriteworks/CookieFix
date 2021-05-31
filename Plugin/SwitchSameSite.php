@@ -61,9 +61,17 @@ class SwitchSameSite
             $agent = $this->header->getHttpUserAgent();
             $sameSite = $this->validator->shouldSendSameSiteNone($agent);
             if ($sameSite === false) {
-                $metadata->setSameSite('None');
+                $metadata
+                    ->setSecure(true)
+                    ->setSameSite('None');
             } else {
                 $config = $this->scopeConfig->getValue(self::CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+
+                // Convert to lowercase since sometimes it comes as lower-cased string
+                if(strtolower($config) === 'none')
+                {
+                    $metadata->setSecure(true);
+                }
                 $metadata->setSameSite($config);
             }
         }
