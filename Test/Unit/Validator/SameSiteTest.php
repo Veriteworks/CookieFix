@@ -18,7 +18,7 @@ class SameSiteTest extends TestCase
     /**
      * setup test
      */
-    public function setUp()
+    public function setUp() :void
     {
         $this->validator = new SameSite();
     }
