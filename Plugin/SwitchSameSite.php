@@ -82,7 +82,7 @@ class SwitchSameSite
     private function isAffectedKeys($name)
     {
         if (!count($this->affectedKeys)) {
-            $affectedKeys = $this->scopeConfig->getValue(self::CONFIG_AFFECTED_KEYS, ScopeInterface::SCOPE_STORE);
+            $affectedKeys = (string)$this->scopeConfig->getValue(self::CONFIG_AFFECTED_KEYS, ScopeInterface::SCOPE_STORE);
             $this->affectedKeys = explode(',', strtolower($affectedKeys));
         }
 
