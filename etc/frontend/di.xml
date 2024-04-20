@@ -6,4 +6,9 @@
                 type="Veriteworks\CookieFix\Plugin\SwitchSameSite"
                 sortOrder="10"/>
     </type>
+    <type name="Magento\Framework\Session\Config\ConfigInterface">
+        <plugin name="modify_same_site"
+                type="Veriteworks\CookieFix\Plugin\Session\ModifySameSite"
+                sortOrder="10"/>
+    </type>
 </config>

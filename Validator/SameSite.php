@@ -1,15 +1,13 @@
 <?php
 namespace Veriteworks\CookieFix\Validator;
 
-/**
- * Class SameSite
- * @package Veriteworks\CookieFix\Validator
- */
 class SameSite
 {
 
     /**
-     * @param $useragent
+     * Return same site none flag by UA.
+     *
+     * @param string $useragent
      * @return bool
      */
     public function shouldSendSameSiteNone($useragent)
@@ -18,7 +16,9 @@ class SameSite
     }
 
     /**
-     * @param $useragent
+     * Return cannot use same site none by UA.
+     *
+     * @param string $useragent
      * @return bool
      */
     private function isSameSiteNoneIncompatible($useragent)
@@ -28,7 +28,9 @@ class SameSite
     }
 
     /**
-     * @param $useragent
+     * Return UA has Webkit bug or not.
+     *
+     * @param string $useragent
      * @return bool
      */
     private function hasWebKitSameSiteBug($useragent)
@@ -39,10 +41,13 @@ class SameSite
     }
 
     /**
-     * @param $useragent
+     * Detect unrecognized same site cookies.
+     *
+     * @param string $useragent
      * @return bool
      */
-    private function dropsUnrecognizedSameSiteCookies($useragent) {
+    private function dropsUnrecognizedSameSiteCookies($useragent)
+    {
         if ($this->isUcBrowser($useragent)) {
             return !$this->isUcBrowserVersionAtLeast(12, 13, 2, $useragent);
         }
@@ -53,16 +58,18 @@ class SameSite
     }
 
     /**
-     * @param $major
-     * @param $useragent
+     * Detect ios version.
+     *
+     * @param string $major
+     * @param string $useragent
      * @return bool
      */
     private function isIosVersion($major, $useragent)
     {
         $regex = "/\(iP.+; CPU .*OS (\d+)[_\d]*.*\) AppleWebKit\//";
-        $matched = array();
+        $matched = [];
 
-        if(preg_match($regex, $useragent, $matched)) {
+        if (preg_match($regex, $useragent, $matched)) {
             $version = (int)$matched[1];
             return version_compare($version, $major, '<=');
         }
@@ -71,17 +78,19 @@ class SameSite
     }
 
     /**
-     * @param $major
-     * @param $minor
-     * @param $useragent
+     * Detect macos version
+     *
+     * @param string $major
+     * @param string $minor
+     * @param string $useragent
      * @return bool
      */
     private function isMacosxVersion($major, $minor, $useragent)
     {
         $regex = "/\(Macintosh;.*Mac OS X (\d+)_(\d+)[_\d]*.*\) AppleWebKit\//";
-        $matched = array();
+        $matched = [];
 
-        if(preg_match($regex, $useragent, $matched)) {
+        if (preg_match($regex, $useragent, $matched)) {
             return version_compare((int)$matched[1], $major, '=') &&
                 version_compare((int)$matched[2], $minor, '<=');
         }
@@ -90,7 +99,9 @@ class SameSite
     }
 
     /**
-     * @param $useragent
+     * Detect UA is Safari or not
+     *
+     * @param string $useragent
      * @return bool
      */
     private function isSafari($useragent)
@@ -100,7 +111,9 @@ class SameSite
     }
 
     /**
-     * @param $useragent
+     * Detect UA is mac embedded browser or not.
+     *
+     * @param string  $useragent
      * @return false|int
      */
     private function isMacEmbeddedBrowser($useragent)
@@ -111,7 +124,9 @@ class SameSite
     }
 
     /**
-     * @param $useragent
+     * Detect UA is chromium based or not.
+     *
+     * @param string $useragent
      * @return false|int
      */
     private function isChromiumBased($useragent)
@@ -121,15 +136,17 @@ class SameSite
     }
 
     /**
-     * @param $major
-     * @param $useragent
-     * @param $operator
+     * Detect UA is compatible with minimum chromium version or not.
+     *
+     * @param string $major
+     * @param string $useragent
+     * @param string $operator
      * @return bool|int
      */
     private function isChromiumVersionAtLeast($major, $useragent, $operator)
     {
         $regex = "/Chrom[^ \/]+\/(\d+)[\.\d]* /";
-        $matched = array();
+        $matched = [];
         if (preg_match($regex, $useragent, $matched)) {
             $version = (int)$matched[1];
             return version_compare($version, $major, $operator);
@@ -138,7 +155,9 @@ class SameSite
     }
 
     /**
-     * @param $useragent
+     * Detect UA is UcBrowser or not.
+     *
+     * @param string $useragent
      * @return false|int
      */
     private function isUcBrowser($useragent)
@@ -148,16 +167,19 @@ class SameSite
     }
 
     /**
-     * @param $major
-     * @param $minor
-     * @param $build
-     * @param $useragent
+     * Detect UA is compatible with minimum UcBrowser version or not.
+     *
+     * @param string $major
+     * @param string $minor
+     * @param string $build
+     * @param string $useragent
      * @return bool|int
      */
-    private function isUcBrowserVersionAtLeast($major, $minor, $build, $useragent) {
+    private function isUcBrowserVersionAtLeast($major, $minor, $build, $useragent)
+    {
         $regex = "/UCBrowser\/(\d+)\.(\d+)\.(\d+)[\.\d]* /";
         // Extract digits from three capturing groups.
-        $matched = array();
+        $matched = [];
         if (preg_match($regex, $useragent, $matched)) {
             $major_version = (int)$matched[1];
             $minor_version = (int)$matched[2];
