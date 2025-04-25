@@ -60,7 +60,7 @@ class SwitchSameSite
         PhpCookieManager $subject,
         $name,
         $value,
-        PublicCookieMetadata $metadata = null
+        ?PublicCookieMetadata $metadata = null
     ) {
         if ($this->isAffectedKeys($name)) {
             $agent = $this->header->getHttpUserAgent();
