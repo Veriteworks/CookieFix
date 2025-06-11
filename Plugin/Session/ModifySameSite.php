@@ -3,7 +3,6 @@
 namespace Veriteworks\CookieFix\Plugin\Session;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\Session\Config;
 use Magento\Framework\Session\Config\ConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Framework\HTTP\Header;
@@ -52,10 +51,6 @@ class ModifySameSite
      */
     public function beforeSetCookieSameSite(ConfigInterface $subject, string $cookieSameSite = 'Lax'): array
     {
-        if (!$subject->getCookieSecure()) {
-            return [$cookieSameSite];
-        }
-        
         $agent = $this->header->getHttpUserAgent();
         $sameSite = $this->validator->shouldSendSameSiteNone($agent);
         if ($sameSite === false) {

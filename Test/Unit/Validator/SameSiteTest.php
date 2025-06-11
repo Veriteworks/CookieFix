@@ -94,7 +94,7 @@ class SameSiteTest extends TestCase
     /**
      * @return array
      */
-    public function iphoneAgentProvider()
+    public static function iphoneAgentProvider()
     {
         return [
             [
@@ -118,7 +118,7 @@ class SameSiteTest extends TestCase
     /**
      * @return array
      */
-    public function ipadAgentProvider()
+    public static function ipadAgentProvider()
     {
         return [
             [
@@ -142,7 +142,7 @@ class SameSiteTest extends TestCase
     /**
      * @return array
      */
-    public function chromeAgentProvider()
+    public static function chromeAgentProvider()
     {
         return [
             [
@@ -166,7 +166,7 @@ class SameSiteTest extends TestCase
     /**
      * @return array
      */
-    public function chromiumAgentProvider()
+    public static function chromiumAgentProvider()
     {
         return [
             [
@@ -186,7 +186,7 @@ class SameSiteTest extends TestCase
     /**
      * @return array
      */
-    public function safariAgentProvider()
+    public static function safariAgentProvider()
     {
         return [
             [
@@ -205,7 +205,7 @@ class SameSiteTest extends TestCase
     /**
      * @return array
      */
-    public function ucbrowserAgentProvider()
+    public static function ucbrowserAgentProvider()
     {
         return [
             [
