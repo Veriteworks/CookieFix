@@ -51,6 +51,10 @@ class ModifySameSite
      */
     public function beforeSetCookieSameSite(ConfigInterface $subject, string $cookieSameSite = 'Lax'): array
     {
+        if (!$subject->getCookieSecure()) {
+            return [$cookieSameSite];
+        }
+        
         $agent = $this->header->getHttpUserAgent();
         $sameSite = $this->validator->shouldSendSameSiteNone($agent);
         if ($sameSite === false) {
