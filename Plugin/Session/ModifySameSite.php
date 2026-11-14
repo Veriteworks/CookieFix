@@ -56,11 +56,8 @@ class ModifySameSite
         }
         
         $agent = $this->header->getHttpUserAgent();
-        $sameSite = $this->validator->shouldSendSameSiteNone($agent);
-        if ($sameSite === false) {
-            $cookieSameSite = 'None';
-        } else {
-            $config = $this->scopeConfig->getValue(self::CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+        $config = (string)$this->scopeConfig->getValue(self::CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+        if ($config !== '' && $this->validator->shouldSendSameSiteNone($agent)) {
             if ($config !== $cookieSameSite) {
                 $cookieSameSite = ucfirst($config);
             }
