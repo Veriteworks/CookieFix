@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="after.body.start">
+            <block name="cookiefix.cookie_config" template="Veriteworks_CookieFix::cookie-config.phtml" after="cookie_config">
+                <arguments>
+                    <argument name="cookie_config" xsi:type="object">Veriteworks\CookieFix\ViewModel\CookieConfig</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,45 @@
+<?php
+/** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+/** @var \Veriteworks\CookieFix\ViewModel\CookieConfig $viewModel */
+$viewModel = $block->getData('cookie_config');
+$sameSite = $viewModel->getSameSite();
+if ($sameSite !== null) {
+    $encodedSameSite = json_encode($sameSite, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+    $script = 'window.cookiesConfig = window.cookiesConfig || {};';
+    if ($sameSite === 'none') {
+        $script .= <<<'JS'
+
+(function (ua, sameSite) {
+    function isSameSiteNoneIncompatible(ua) {
+        var ios = /\(iP.+; CPU .*OS (\d+)[_\d]*.*\) AppleWebKit\//.exec(ua),
+            mac = /\(Macintosh;.*Mac OS X (\d+)_(\d+)[_\d]*.*\) AppleWebKit\//.exec(ua),
+            chromiumBased = /Chrom(e|ium)/.test(ua),
+            safari = /Version\/.* Safari\//.test(ua) && !chromiumBased,
+            embedded = /^Mozilla\/[.\d]+ \(Macintosh;.*Mac OS X [_\d]+\) AppleWebKit\/[.\d]+ \(KHTML, like Gecko\)$/.test(ua),
+            hasWebKitSameSiteBug = (ios && +ios[1] <= 12) ||
+                (mac && +mac[1] === 10 && +mac[2] <= 14 && (safari || embedded)),
+            uc = /UCBrowser\/(\d+)\.(\d+)\.(\d+)[.\d]* /.exec(ua),
+            chromium = /Chrom[^ \/]+\/(\d+)[.\d]* /.exec(ua),
+            dropsUnrecognizedSameSiteCookies = /UCBrowser\//.test(ua) ?
+                !(uc && +uc[1] >= 12 && +uc[2] >= 13 && +uc[3] >= 2) :
+                (chromiumBased && chromium && +chromium[1] >= 51 && +chromium[1] <= 67);
+
+        return hasWebKitSameSiteBug || dropsUnrecognizedSameSiteCookies;
+    }
+
+    if (!isSameSiteNoneIncompatible(ua)) {
+        window.cookiesConfig.secure = true;
+        window.cookiesConfig.samesite = sameSite;
+    }
+})(navigator.userAgent,
+JS;
+        $script .= $encodedSameSite . ');';
+    } else {
+        $script .= 'window.cookiesConfig.samesite = ' . $encodedSameSite . ';';
+    }
+}
+?>
+<?php if ($sameSite !== null): ?>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', [], $script, false) ?>
+<?php endif; ?>
