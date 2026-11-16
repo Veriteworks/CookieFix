@@ -5,7 +5,7 @@ This extension is adjusting Cookie SameSite attribute issue since Chrome 80.
 
 # Features
 Add SameSite attribute into Magento session cookie. For 3DS payment, payment gateways tend to send request via POST to Magento based website. However without SameSite=None for session cookie, Magento cannot continue any PHP session state.
-This extension set SameSite=None and make customers place order via 3DS payment or other ID integrations. 
+This extension applies the SameSite value configured in web/cookie/samesite (default Lax) to the session and affected cookies. Set it to None to let customers place orders via 3DS payment or other ID integrations. Clients known to mishandle SameSite=None (iOS 12, macOS 10.14 Safari, Chromium 51-67, old UC Browser) keep Magento's default. 
 
 # How to install
  + composer require veriteworks/cookiefix

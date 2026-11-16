@@ -2,7 +2,9 @@
 namespace Veriteworks\CookieFix\Plugin;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\HTTP\Header;
+use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
 use Magento\Framework\Stdlib\Cookie\PhpCookieManager;
 use Magento\Framework\Stdlib\Cookie\PublicCookieMetadata;
 use Magento\Store\Model\ScopeInterface;
@@ -26,6 +28,11 @@ class SwitchSameSite
     private $scopeConfig;
 
     /**
+     * @var CookieMetadataFactory|null
+     */
+    private $metadataFactory;
+
+    /**
      * @var array
      */
     private $affectedKeys = [];
@@ -36,15 +43,18 @@ class SwitchSameSite
      * @param Header $header
      * @param ScopeConfigInterface $scopeConfig
      * @param SameSite $validator
+     * @param CookieMetadataFactory|null $metadataFactory
      */
     public function __construct(
         Header $header,
         ScopeConfigInterface $scopeConfig,
-        SameSite $validator
+        SameSite $validator,
+        ?CookieMetadataFactory $metadataFactory = null
     ) {
         $this->validator = $validator;
         $this->header = $header;
         $this->scopeConfig = $scopeConfig;
+        $this->metadataFactory = $metadataFactory;
     }
 
     /**
@@ -64,13 +74,9 @@ class SwitchSameSite
     ) {
         if ($this->isAffectedKeys($name)) {
             $agent = $this->header->getHttpUserAgent();
-            $sameSite = $this->validator->shouldSendSameSiteNone($agent);
-            if ($sameSite === false) {
-                $metadata
-                    ->setSecure(true)
-                    ->setSameSite('None');
-            } else {
-                $config = $this->scopeConfig->getValue(self::CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+            $config = (string)$this->scopeConfig->getValue(self::CONFIG_PATH, ScopeInterface::SCOPE_STORE);
+            if ($config !== '' && $this->validator->shouldSendSameSiteNone($agent)) {
+                $metadata = $metadata ?? $this->getMetadataFactory()->createPublicCookieMetadata();
 
                 // Convert to lowercase since sometimes it comes as lower-cased string
                 if (strtolower($config) === 'none') {
@@ -81,6 +87,18 @@ class SwitchSameSite
         }
 
         return [$name, $value, $metadata];
+    }
+
+    /**
+     * @return CookieMetadataFactory
+     */
+    private function getMetadataFactory(): CookieMetadataFactory
+    {
+        if ($this->metadataFactory === null) {
+            $this->metadataFactory = ObjectManager::getInstance()->get(CookieMetadataFactory::class);
+        }
+
+        return $this->metadataFactory;
     }
 
     /**
