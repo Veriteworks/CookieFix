@@ -228,6 +228,21 @@ class SameSiteTest extends TestCase
                 '(KHTML,like Gecko) Version/4.0 Chrome/40.0.2214.89 UCBrowser/12.12.0.953 Mobile Safari/537.36',
                 false
             ],
+            [
+                'Mozilla/5.0(Linux;U;Android 5.1.1;zh-CN;OPPO A33 Build/LMY47V) AppleWebKit/537.36' .
+                '(KHTML,like Gecko) Version/4.0 Chrome/40.0.2214.89 UCBrowser/12.14.0.953 Mobile Safari/537.36',
+                true
+            ],
+            [
+                'Mozilla/5.0(Linux;U;Android 5.1.1;zh-CN;OPPO A33 Build/LMY47V) AppleWebKit/537.36' .
+                '(KHTML,like Gecko) Version/4.0 Chrome/40.0.2214.89 UCBrowser/13.0.0.953 Mobile Safari/537.36',
+                true
+            ],
+            [
+                'Mozilla/5.0(Linux;U;Android 5.1.1;zh-CN;OPPO A33 Build/LMY47V) AppleWebKit/537.36' .
+                '(KHTML,like Gecko) Version/4.0 Chrome/40.0.2214.89 UCBrowser/13.4.0.1306 Mobile Safari/537.36',
+                true
+            ],
         ];
     }
 }

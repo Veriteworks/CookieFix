@@ -181,15 +181,9 @@ class SameSite
         // Extract digits from three capturing groups.
         $matched = [];
         if (preg_match($regex, $useragent, $matched)) {
-            $major_version = (int)$matched[1];
-            $minor_version = (int)$matched[2];
-            $build_version = (int)$matched[3];
+            $version = (int)$matched[1] . '.' . (int)$matched[2] . '.' . (int)$matched[3];
 
-            if (version_compare($major_version, $major, '>=')) {
-                if (version_compare($minor_version, $minor, '>=')) {
-                    return version_compare($build_version, $build, '>=');
-                }
-            }
+            return version_compare($version, $major . '.' . $minor . '.' . $build, '>=');
         }
 
         return false;
