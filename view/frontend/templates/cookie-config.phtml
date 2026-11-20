@@ -22,7 +22,7 @@ if ($sameSite !== null) {
             uc = /UCBrowser\/(\d+)\.(\d+)\.(\d+)[.\d]* /.exec(ua),
             chromium = /Chrom[^ \/]+\/(\d+)[.\d]* /.exec(ua),
             dropsUnrecognizedSameSiteCookies = /UCBrowser\//.test(ua) ?
-                !(uc && +uc[1] >= 12 && +uc[2] >= 13 && +uc[3] >= 2) :
+                !(uc && (+uc[1] !== 12 ? +uc[1] > 12 : (+uc[2] !== 13 ? +uc[2] > 13 : +uc[3] >= 2))) :
                 (chromiumBased && chromium && +chromium[1] >= 51 && +chromium[1] <= 67);
 
         return hasWebKitSameSiteBug || dropsUnrecognizedSameSiteCookies;
