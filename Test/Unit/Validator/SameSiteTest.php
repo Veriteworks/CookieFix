@@ -1,6 +1,7 @@
 <?php
 namespace Veriteworks\CookieFix\Test\Unit\Validator;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Veriteworks\CookieFix\Validator\SameSite;
 
@@ -25,6 +26,7 @@ class SameSiteTest extends TestCase
      *
      * @dataProvider iphoneAgentProvider
      */
+    #[DataProvider('iphoneAgentProvider')]
     public function testIphone($useragent, $expected)
     {
         $result = $this->validator->shouldSendSameSiteNone($useragent);
@@ -37,6 +39,7 @@ class SameSiteTest extends TestCase
      *
      * @dataProvider ipadAgentProvider
      */
+    #[DataProvider('ipadAgentProvider')]
     public function testIpad($useragent, $expected)
     {
         $result = $this->validator->shouldSendSameSiteNone($useragent);
@@ -49,6 +52,7 @@ class SameSiteTest extends TestCase
      *
      * @dataProvider chromeAgentProvider
      */
+    #[DataProvider('chromeAgentProvider')]
     public function testChrome($useragent, $expected)
     {
         $result = $this->validator->shouldSendSameSiteNone($useragent);
@@ -61,6 +65,7 @@ class SameSiteTest extends TestCase
      *
      * @dataProvider chromiumAgentProvider
      */
+    #[DataProvider('chromiumAgentProvider')]
     public function testChromium($useragent, $expected)
     {
         $result = $this->validator->shouldSendSameSiteNone($useragent);
@@ -73,6 +78,7 @@ class SameSiteTest extends TestCase
      *
      * @dataProvider safariAgentProvider
      */
+    #[DataProvider('safariAgentProvider')]
     public function testSafari($useragent, $expected)
     {
         $result = $this->validator->shouldSendSameSiteNone($useragent);
@@ -85,6 +91,7 @@ class SameSiteTest extends TestCase
      *
      * @dataProvider ucbrowserAgentProvider
      */
+    #[DataProvider('ucbrowserAgentProvider')]
     public function testUcBrowser($useragent, $expected)
     {
         $result = $this->validator->shouldSendSameSiteNone($useragent);
